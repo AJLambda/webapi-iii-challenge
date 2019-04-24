@@ -14,6 +14,8 @@ function upperCaseName(req, res, next) {
   if (req.body.name !== req.body.name.toUpperCase()) {
     req.body.name = req.body.name.toUpperCase();
     next();
+  } else {
+    next();
   }
 }
 
@@ -120,9 +122,9 @@ router.put("/:id", upperCaseName, async (req, res) => {
 // add an endpoint that returns all the posts for a user
 // this is a sub-route or sub-resource
 router.get("/:id/posts", async (req, res) => {
+  console.log(req.params.id);
   try {
     const messages = await UserHubs.getUserPosts(req.params.id);
-
     res.status(200).json(messages);
   } catch (error) {
     // log error to database

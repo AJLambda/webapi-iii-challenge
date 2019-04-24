@@ -18,14 +18,14 @@ server.use(parser); // server now knows how to write JSON. Extends express by us
 server.use(helmet()); // 3rd party security for headers. Hides x powered by Express
 server.use(morgan("dev")); // 3rd party logger (logs i.e. GET /api/hubs 200 35.336 ms - 470)
 
+server.use("/api/users", usersRouter);
+server.use("/api/posts", postsRouter);
+
 server.get("/", (req, res) => {
   //this function is a request handler. It is also middleware.
   //request and response are positional arguments.
   res.send("It's alive!"); // .send is a method of the response object. This sends a quick response back to the client
 });
-
-server.use("/api/users", usersRouter);
-server.use("/api/posts", postsRouter);
 
 // export default server
 module.exports = server;
