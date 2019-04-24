@@ -4,6 +4,21 @@ const UserHubs = require("../data/helpers/userDb"); // import the db functions;
 
 const router = express.Router();
 
+// const errorHelper = (status, message, res) => {
+//   res.status(status).json({ error: message });
+// };
+
+// ===================== CUSTOM MIDDLEWARE =====================
+
+function upperCaseName(req, res, next) {
+  if (req.body.name !== req.body.name.toUpperCase()) {
+    req.body.name = req.body.name.toUpperCase();
+    next();
+  }
+}
+
+// ===================== USER ENDPOINTS =====================
+
 // this only runs if the url has /api/users in it
 router.get("/", async (req, res) => {
   try {
@@ -17,12 +32,6 @@ router.get("/", async (req, res) => {
     });
   }
 });
-
-const error = {
-  title: "Wrong Credentials",
-  description: "The credentials are incorrect",
-  recoveryInstructions: "Please verify your information and try again."
-};
 
 // /api/hubs/:id
 // router.get('/:id', (req, res) => {
@@ -61,7 +70,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", upperCaseName, async (req, res) => {
   try {
     const user = await UserHubs.insert(req.body);
     res.status(201).json(user);
@@ -91,7 +100,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", upperCaseName, async (req, res) => {
   try {
     const user = await UserHubs.update(req.params.id, req.body);
     if (user) {
@@ -124,21 +133,21 @@ router.get("/:id/posts", async (req, res) => {
   }
 });
 
-// add an endpoint for adding new message to a user
-router.post("/:id/posts", async (req, res) => {
-  const messageInfo = { ...req.body, user_id: req.params.id };
+// // add an endpoint for adding new message to a user
+// router.post("/:id/posts", async (req, res) => {
+//   const messageInfo = { ...req.body, user_id: req.params.id };
 
-  try {
-    const message = await UserHubs.addMessage(messageInfo);
-    res.status(210).json(message);
-  } catch (error) {
-    // log error to database
-    console.log(error);
-    res.status(500).json({
-      message: "Error getting the messages for the hub"
-    });
-  }
-});
+//   try {
+//     const message = await UserHubs.addMessage(messageInfo);
+//     res.status(210).json(message);
+//   } catch (error) {
+//     // log error to database
+//     console.log(error);
+//     res.status(500).json({
+//       message: "Error getting the messages for the user"
+//     });
+//   }
+// });
 
 // export default router
 module.exports = router;

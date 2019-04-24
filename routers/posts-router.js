@@ -4,6 +4,8 @@ const PostHubs = require("../data/helpers/postDb"); // import the db functions;
 
 const router = express.Router();
 
+// ===================== POST ENDPOINTS =====================
+
 // this only runs if the url has /api/posts in it
 router.get("/", async (req, res) => {
   try {
@@ -93,7 +95,7 @@ router.delete("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const hub = await PostHubs.update(req.params.id, req.body);
+    const post = await PostHubs.update(req.params.id, req.body);
     if (post) {
       res.status(200).json(post);
     } else {
