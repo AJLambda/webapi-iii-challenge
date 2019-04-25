@@ -11,6 +11,7 @@ const router = express.Router();
 // ===================== CUSTOM MIDDLEWARE =====================
 
 function upperCaseName(req, res, next) {
+  console.log(req.body.name);
   if (req.body.name !== req.body.name.toUpperCase()) {
     req.body.name = req.body.name.toUpperCase();
     next();

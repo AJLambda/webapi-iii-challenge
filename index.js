@@ -1,12 +1,12 @@
-// code away!
+const envReader = require("dotenv");
+envReader.config(); // reads .env and merges it into process.env
 // import server from './server/js'
 const server = require("./server.js");
 
-const port = 5000;
-
-server.listen(port, () =>
-  console.log(`\n server listening on port: ${port} \n`)
-);
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+  console.log("\n*** Server Running on http://localhost:3000 ***\n");
+});
 
 /*
 
