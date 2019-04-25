@@ -24,7 +24,7 @@ server.use("/api/posts", postsRouter);
 server.get("/", (req, res) => {
   //this function is a request handler. It is also middleware.
   //request and response are positional arguments.
-  res.send("its alive!", { messageOfTheDay: process.env.MOTD }); // .send is a method of the response object. This sends a quick response back to the client
+  res.status(200).json({ messageOfTheDay: process.env.MOTD }); // .send is a method of the response object. This sends a quick response back to the client
 });
 
 // export default server
